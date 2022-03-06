@@ -1,6 +1,7 @@
 package com.example.payoffline
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -68,7 +69,9 @@ class SendActivity : AppCompatActivity() {
                 editor.putString("balance", b)
                 editor.commit()
                 Nearby.getConnectionsClient(applicationContext).stopDiscovery()
-
+                val intent = Intent(applicationContext, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
             }
         }
 

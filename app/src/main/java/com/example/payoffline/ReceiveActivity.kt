@@ -1,6 +1,7 @@
 package com.example.payoffline
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -35,7 +36,7 @@ class ReceiveActivity : AppCompatActivity() {
             .addOnSuccessListener(
                 OnSuccessListener { unused: Void? ->
 
-                    Toast.makeText(applicationContext,"Ready to Take Attendance",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,"Ready to Receive",Toast.LENGTH_SHORT).show()
                     Log.d("Receiver","Advertising success")
 
                 })
@@ -66,6 +67,10 @@ class ReceiveActivity : AppCompatActivity() {
 
             val data = Payload.fromBytes("Success".toByteArray())
             Nearby.getConnectionsClient(applicationContext).sendPayload(endpointId, data)
+            Nearby.getConnectionsClient(applicationContext).stopAdvertising()
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
         }
 
         override fun onPayloadTransferUpdate(endpointId: String, update: PayloadTransferUpdate) {
